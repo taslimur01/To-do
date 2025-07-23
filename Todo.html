@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise</title>
+  <style>
+    body { font-family: 'Noto Sans Bengali', sans-serif; background:#DDDAD0 ; padding: 20px; }
+    h1 { text-align: center; color: #222; }
+    .day-card {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .done {
+      background: #d4edda;
+      text-decoration: line-through;
+    }
+    button {
+      background: #00796b;
+      color: white;
+      padding: 8px 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #004d40;
+    }
+    .reset-btn {
+      background: crimson;
+      margin-top: 30px;
+    }
+    .completed {
+      background: #c8e6c9;
+      color: #256029;
+      padding: 12px;
+      margin-top: 20px;
+      border-left: 6px solid #2e7d32;
+      border-radius: 10px;
+      font-size: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="color : #113F67 ; font-size : 24px ; text-align : center ; font-weight: 20px; "><b>𝟹𝟶-𝚍𝚊𝚢 𝚎𝚡𝚎𝚛𝚌𝚒𝚜𝚎 𝚛𝚘𝚞𝚝𝚒𝚗𝚎</b></br></br>
+  </div>
+<div id="routine"></div>
+
+<div style="text-align:center;">
+  <button class="reset-btn" onclick="resetRoutine()">♻️ 𝚁𝚎𝚜𝚎𝚝</button>
+  <div id="completion" class="completed" style="display:none;"></div>
+</div>
+
+<script>
+  const routineData = [
+    { type: "Strength + Core", workouts: ["Push-up – ৩x১২", "Plank – ৩x৩০ সেকেন্ড", "Squat – ৩x১৫", "Kegel – ৩x২০"] },
+    { type: "Pelvic + Lower Body", workouts: ["Hip Bridge – ৩x১৫", "Lunges – ৩x১০", "Cobra Stretch – ২x২০ সেকেন্ড", "Kegel – ৩x৩০"] },
+    { type: "Strength + Abs", workouts: ["Jumping Jacks – ২ মিনিট", "Push-up – ৩x১২", "Plank – ৩x৪০ সেকেন্ড", "Stretch – Chest & Arm"] },
+    { type: "Sexual Health", workouts: ["Pelvic Thrust – ৩x২০", "Butterfly Stretch – ২x৩০ সেকেন্ড", "Cobra – ২x৩০ সেকেন্ড", "Kegel – ৩x৫০"] },
+    { type: "Upper Body Blast", workouts: ["Wide Push-up – ৩x১০", "Plank with Leg Lift – ৩x২০ সেকেন্ড", "Arm Stretch"] },
+    { type: "Lower Body + Sperm Boost", workouts: ["Hip Raise – ৩x১৫", "Squat Hold – ৩০ সেকেন্ড", "Cobra Stretch", "Kegel – ৩x৩০"] },
+    { type: "Active Rest", workouts: ["২০ মিনিট হেঁটে বেড়ানো", "Full Body Stretch", "Pranayama – ৫ মিনিট"] },
+  ];
+
+  const routineContainer = document.getElementById("routine");
+  const completedDiv = document.getElementById("completion");
+  let completedDays = 0;
+
+  // Render 30 days
+  for (let i = 1; i <= 30; i++) {
+    const isDone = localStorage.getItem("day" + i) === "done";
+    if (isDone) completedDays++;
+
+    const dayData = routineData[(i - 1) % 7];
+    const card = document.createElement("div");
+    card.className = "day-card" + (isDone ? " done" : "");
+    card.innerHTML = `<h3>দিন ${i}: ${dayData.type}</h3><ul>` +
+      dayData.workouts.map(w => `<li>${w}</li>`).join("") +
+      `</ul><button onclick="markDone(${i})">✅  𝕮𝖔𝖒𝖕𝖑𝖊𝖙𝖊</button>`;
+    routineContainer.appendChild(card);
+  }
+
+  // If all 30 days done
+  if (completedDays === 30) {
+    let prevMonth = parseInt(localStorage.getItem("monthCompleted") || "0") + 1;
+    localStorage.setItem("monthCompleted", prevMonth);
+    showCompletion(prevMonth);
+  } else {
+    let savedMonth = parseInt(localStorage.getItem("monthCompleted") || "0");
+    if (savedMonth > 0) showCompletion(savedMonth);
+  }
+
+  function markDone(day) {
+    localStorage.setItem("day" + day, "done");
+    location.reload();
+  }
+
+  function resetRoutine() {
+    if (confirm("Are you sure you want to reset?")) {
+      for (let i = 1; i <= 30; i++) {
+        localStorage.removeItem("day" + i);
+      }
+      // Preserve monthCompleted
+      location.reload();
+    }
+  }
+
+  function showCompletion(months) {
+    completedDiv.style.display = "block";
+    completedDiv.innerText = `🎉 Successfully completed ${months} month${months > 1 ? "s" : ""} of exercise!`;
+  }
+</script>
+
+</body>
+</html>
