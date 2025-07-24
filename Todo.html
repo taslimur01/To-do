@@ -4,8 +4,15 @@
   <meta charset="UTF-8">
   <title>Exercise</title>
   <style>
-    body { font-family: 'Noto Sans Bengali', sans-serif; background:#DDDAD0 ; padding: 20px; }
-    h1 { text-align: center; color: #222; }
+    body {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: #DDDAD0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #222;
+    }
     .day-card {
       background: #fff;
       padding: 15px;
@@ -43,35 +50,72 @@
       font-size: 18px;
       text-align: center;
     }
+    .exercise {
+      cursor: pointer;
+      margin: 5px 0;
+    }
+    .instruction {
+      display: none;
+      padding: 5px 10px;
+      background: #f1f1f1;
+      border-left: 3px solid #00796b;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      font-size: 15px;
+    }
   </style>
 </head>
 <body>
 
-  <div style="color : #113F67 ; font-size : 24px ; text-align : center ; font-weight: 20px; "><b>𝟹𝟶-𝚍𝚊𝚢 𝚎𝚡𝚎𝚛𝚌𝚒𝚜𝚎 𝚛𝚘𝚞𝚝𝚒𝚗𝚎</b></br></br>
+  <div style="color : #113F67 ; font-size : 24px ; text-align : center ; font-weight: 20px;">
+    <b>𝟹𝟶-𝚍𝚊𝚢 𝚎𝚡𝚎𝚛𝚌𝚒𝚜𝚎 𝚛𝚘𝚞𝚝𝚒𝚗𝚎</b></br></br>
   </div>
-<div id="routine"></div>
 
-<div style="text-align:center;">
-  <button class="reset-btn" onclick="resetRoutine()">♻️ 𝚁𝚎𝚜𝚎𝚝</button>
-  <div id="completion" class="completed" style="display:none;"></div>
-</div>
+  <div id="routine"></div>
+
+  <div style="text-align:center;">
+    <button class="reset-btn" onclick="resetRoutine()">♻️ 𝚁𝚎𝚜𝚎𝚝</button>
+    <div id="completion" class="completed" style="display:none;"></div>
+  </div>
 
 <script>
   const routineData = [
-    { type: "Strength + Core", workouts: ["Push-up – ৩x১২", "Plank – ৩x৩০ সেকেন্ড", "Squat – ৩x১৫", "Kegel – ৩x২০"] },
-    { type: "Pelvic + Lower Body", workouts: ["Hip Bridge – ৩x১৫", "Lunges – ৩x১০", "Cobra Stretch – ২x২০ সেকেন্ড", "Kegel – ৩x৩০"] },
-    { type: "Strength + Abs", workouts: ["Jumping Jacks – ২ মিনিট", "Push-up – ৩x১২", "Plank – ৩x৪০ সেকেন্ড", "Stretch – Chest & Arm"] },
-    { type: "Sexual Health", workouts: ["Pelvic Thrust – ৩x২০", "Butterfly Stretch – ২x৩০ সেকেন্ড", "Cobra – ২x৩০ সেকেন্ড", "Kegel – ৩x৫০"] },
-    { type: "Upper Body Blast", workouts: ["Wide Push-up – ৩x১০", "Plank with Leg Lift – ৩x২০ সেকেন্ড", "Arm Stretch"] },
-    { type: "Lower Body + Sperm Boost", workouts: ["Hip Raise – ৩x১৫", "Squat Hold – ৩০ সেকেন্ড", "Cobra Stretch", "Kegel – ৩x৩০"] },
-    { type: "Active Rest", workouts: ["২০ মিনিট হেঁটে বেড়ানো", "Full Body Stretch", "Pranayama – ৫ মিনিট"] },
+    { type: "Strength + Core", workouts: ["Push-up", "Plank", "Squat", "Kegel"] },
+    { type: "Pelvic + Lower Body", workouts: ["Hip Bridge", "Lunges", "Cobra Stretch", "Kegel"] },
+    { type: "Strength + Abs", workouts: ["Jumping Jacks", "Push-up", "Plank", "Stretch – Chest & Arm"] },
+    { type: "Sexual Health", workouts: ["Pelvic Thrust", "Butterfly Stretch", "Cobra", "Kegel"] },
+    { type: "Upper Body Blast", workouts: ["Wide Push-up", "Plank with Leg Lift", "Arm Stretch"] },
+    { type: "Lower Body + Sperm Boost", workouts: ["Hip Raise", "Squat Hold", "Cobra Stretch", "Kegel"] },
+    { type: "Active Rest", workouts: ["২০ মিনিট হেঁটে বেড়ানো", "Full Body Stretch", "Pranayama"] },
   ];
+
+  const instructionMap = {
+    "Push-up": "মাটিতে হাত ও পায়ের আঙ্গুল দিয়ে ভর দিয়ে শরীর নামাও ও উঠাও। পিঠ সোজা থাকবে।",
+    "Plank": "মাটিতে কনুই ও পায়ের আঙুল দিয়ে ভর দিয়ে সোজা হয়ে থাকো নির্দিষ্ট সময়।",
+    "Squat": "পা দূরে রেখে বসার মত ভঙ্গিতে নিচে যাও ও উঠো। হাঁটু ৯০ ডিগ্রী কোণে থাকবে।",
+    "Kegel": "মূত্র থামানোর মতো পেশি সংকোচন করো ৩-৫ সেকেন্ড, এরপর ছেড়ে দাও।",
+    "Hip Bridge": "মাটিতে শুয়ে হাঁটু ভাঁজ করে পা রাখো, তারপর পেছন তুলে ধরো ও নামাও।",
+    "Lunges": "এক পা সামনে রেখে ভাঁজ করো, অন্য পা পেছনে রেখে শরীর নিচে নামাও।",
+    "Cobra Stretch": "পেটের উপর শুয়ে হাত দিয়ে শরীর উপরের দিকে তোলো, কোমর নিচে থাকবে।",
+    "Jumping Jacks": "একসাথে লাফিয়ে হাত ও পা ছড়াও এবং একসাথে ফেরাও।",
+    "Stretch – Chest & Arm": "হাত সামনে বা পাশে নিয়ে বুক প্রসারিত করো।",
+    "Pelvic Thrust": "মাটিতে শুয়ে হাঁটু ভাঁজ করে পা রেখে পেছন বারবার উঠাও নামাও।",
+    "Butterfly Stretch": "পা ভাঁজ করে তালু মিলিয়ে বসো, হাঁটু মাটির দিকে ঠেলো।",
+    "Cobra": "Cobra Stretch-এর মতোই।",
+    "Wide Push-up": "নরমাল Push-up এর মতো, তবে হাত কাঁধের চেয়ে দূরে থাকবে।",
+    "Plank with Leg Lift": "Plank অবস্থায় এক পা কয়েক সেকেন্ড তুলে রাখো, তারপর বদলাও।",
+    "Arm Stretch": "এক হাত আরেক হাতে ধরে টান দিয়ে কাঁধের পেশি প্রসারিত করো।",
+    "Hip Raise": "Hip Bridge-এর মতোই, ধীরে পেছন উঠাও।",
+    "Squat Hold": "Squat অবস্থায় কিছুক্ষণ স্থিরভাবে থাকো।",
+    "২০ মিনিট হেঁটে বেড়ানো": "আরামদায়ক গতিতে ২০ মিনিট হাঁটো।",
+    "Full Body Stretch": "সারা শরীর প্রসারিত করার হালকা স্ট্রেচিং করো।",
+    "Pranayama": "শ্বাস-প্রশ্বাসের নিয়ন্ত্রিত ব্যায়াম; ধীরে নিঃশ্বাস নাও ও ছাড়ো।"
+  };
 
   const routineContainer = document.getElementById("routine");
   const completedDiv = document.getElementById("completion");
   let completedDays = 0;
 
-  // Render 30 days
   for (let i = 1; i <= 30; i++) {
     const isDone = localStorage.getItem("day" + i) === "done";
     if (isDone) completedDays++;
@@ -79,13 +123,21 @@
     const dayData = routineData[(i - 1) % 7];
     const card = document.createElement("div");
     card.className = "day-card" + (isDone ? " done" : "");
-    card.innerHTML = `<h3>দিন ${i}: ${dayData.type}</h3><ul>` +
-      dayData.workouts.map(w => `<li>${w}</li>`).join("") +
-      `</ul><button onclick="markDone(${i})">✅  𝕮𝖔𝖒𝖕𝖑𝖊𝖙𝖊</button>`;
+
+    let listItems = "";
+    dayData.workouts.forEach(work => {
+      listItems += `
+        <li class="exercise" onclick="toggleInstruction(this)">
+          ${work}
+          <div class="instruction">${instructionMap[work] || "🔍 বিস্তারিত ব্যাখ্যা পাওয়া যায়নি।"}</div>
+        </li>`;
+    });
+
+    card.innerHTML = `<h3>দিন ${i}: ${dayData.type}</h3><ul>${listItems}</ul>
+      <button onclick="markDone(${i})">✅ 𝕮𝖔𝖒𝖕𝖑𝖊𝖙𝖊</button>`;
     routineContainer.appendChild(card);
   }
 
-  // If all 30 days done
   if (completedDays === 30) {
     let prevMonth = parseInt(localStorage.getItem("monthCompleted") || "0") + 1;
     localStorage.setItem("monthCompleted", prevMonth);
@@ -105,7 +157,6 @@
       for (let i = 1; i <= 30; i++) {
         localStorage.removeItem("day" + i);
       }
-      // Preserve monthCompleted
       location.reload();
     }
   }
@@ -113,6 +164,11 @@
   function showCompletion(months) {
     completedDiv.style.display = "block";
     completedDiv.innerText = `🎉 Successfully completed ${months} month${months > 1 ? "s" : ""} of exercise!`;
+  }
+
+  function toggleInstruction(el) {
+    const instr = el.querySelector('.instruction');
+    instr.style.display = instr.style.display === 'block' ? 'none' : 'block';
   }
 </script>
 
